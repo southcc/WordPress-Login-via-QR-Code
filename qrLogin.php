@@ -92,7 +92,7 @@ function qrLogin_plugin_options() {
 		wp_die( __('You do not have sufficient permissions to access this page.') );
 	}
 	$current_user = wp_get_current_user();
-	$hash = $_GET['qrHash'];
+	$hash = mysql_real_escape_string($_GET['qrHash']);
 	echo '<p>Hello '.$current_user->user_login.'</p>';
 	echo '<div class="wrap">';
 	echo '<p>You have successfully logged in.</p>';
