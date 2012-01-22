@@ -2,7 +2,7 @@
 
 	global $wpdb;
 	if (isset($_GET['qrHash'])){
-		$hash = $_GET['qrHash'];
+		$hash = mysql_real_escape_string($_GET['qrHash']);
 		if ($hash != 'used'){
 			$qrUserLogin = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."qrLogin WHERE hash = '".$hash."'");
 			$user_login = $qrUserLogin[0]->uname;

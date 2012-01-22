@@ -37,7 +37,7 @@ function ajax_check_logs_in() {
 	while((time() - $time) < 30) {
 		
 		// get the submitted qrHash
-		$qrHash = $_POST['qrHash'];
+		$qrHash = mysql_real_escape_string($_POST['qrHash']);
 		global $wpdb;
 		$qrUserLogin = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."qrLogin WHERE hash = '".$qrHash."'");
 	 
