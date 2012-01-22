@@ -16,7 +16,7 @@
 			    	if (response.hash == qrHash){
 				        window.location = "http://"+window.location.hostname+"/wp-content/plugins/qrLogin/checkQrLogin.php?qrHash="+response.hash;
 				    } else {
-				    	window.location.reload();
+				    	sendAjax();
 				    }
 			    });
 			};
