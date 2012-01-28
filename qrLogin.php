@@ -1,6 +1,6 @@
 <?php 
 /*
-Plugin Name: QR Login
+Plugin Name: No More Passwords*
 Plugin URI: http://www.jackreichert.com/plugins/qr-login/
 Description: Lets WordPress users login using a QR code
 Version: 0.1
@@ -10,23 +10,50 @@ License: GPL2
 				
 */
 
-// Enqueue script that creates and places QR-code on login page
-wp_enqueue_script( 'qrLogin_js', plugins_url('/qrLogin.js', __FILE__), array( 'jquery' ) );
-wp_localize_script( 'qrLogin_js', 'qrLoginAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-
 // Creates Hash places as meta tag in header (for js to find) inserts into db.
-function my_custom_login_logo() {
+function wp_qr_code_login_head() {
+	// Enqueue script that creates and places QR-code on login page
+	wp_enqueue_script( 'qrLogin_js', plugins_url('/qrLogin.js', __FILE__), array( 'jquery' ) );
+	wp_localize_script( 'qrLogin_js', 'qrLoginAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+
+	global $wpdb;
 	$hash = md5(uniqid(rand(), true)); ?>
 	<meta name="qrHash" content="<?php echo $hash; ?>"?>
 
 <?php
-	global $wpdb;
 	$table_name = $wpdb->prefix . "qrLogin";
 	$rows_affected = $wpdb->insert( $table_name, array( 'timestamp' => current_time('mysql'), 'uname' => 'guest', 'hash' => $hash ) );
-	
+
 }
 // adds init to login header
-add_action('login_head', 'my_custom_login_logo');
+add_action('login_head', 'wp_qr_code_login_head');
+
+// before headers are sent checks to see if hash has been received. Logs in if all checks out.
+function wp_qr_code_init_head (){
+	if (isset($_GET['qrHash']) && $_GET['qrHash'] != 'used'){
+		global $wpdb;
+		$hash = mysql_real_escape_string($_GET['qrHash']);
+		$qrUserLogin = $wpdb->get_results("SELECT * FROM ".$wpdb->prefix."qrLogin WHERE hash = '".$hash."'");
+		$user_login = $qrUserLogin[0]->uname;
+
+		if ($user_login != NULL && $user_login != 'guest'){
+
+	        $user = get_userdatabylogin($user_login);
+	        $user_id = $user->ID;
+
+	        wp_set_current_user($user_id, $user_login);
+	        wp_set_auth_cookie($user_id);
+	        do_action('wp_login', $user_login);
+			
+			$mylink = $wpdb->get_results("UPDATE ".$wpdb->prefix."qrLogin SET hash = 'used' WHERE uname = '".$user_login."'");
+			echo '<script type="text/javascript">window.location = "'.get_bloginfo("url").'/wp-admin/";</script>'; 
+		
+		} 
+	}
+}
+// adds before headers are sent
+add_action('init', 'wp_qr_code_init_head');
+
 
 // The viewer will not be logged in
 add_action( 'wp_ajax_nopriv_ajax-qrLogin', 'ajax_check_logs_in' );

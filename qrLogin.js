@@ -14,7 +14,7 @@
 			        qrHash : qrHash
 			    },function( response ) {
 			    	if (response.hash == qrHash){
-				        window.location = "http://"+window.location.hostname+"/wp-content/plugins/qrLogin/checkQrLogin.php?qrHash="+response.hash;
+				        window.location = "http://"+window.location.hostname+"/wp-login.php?qrHash="+response.hash;
 				    } else {
 				    	sendAjax();
 				    }
