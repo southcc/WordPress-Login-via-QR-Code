@@ -1,18 +1,25 @@
-=== WP QR Code Login ===
+=== No More Passwords ===
 Contributors: jackreichert
-Donate link: http://www.jackreichert.com/the-human-fund/
 Tags: Login, QR Code, Password
 Requires at least: 3.3
 Tested up to: 3.3.1
 Stable tag: trunk
 
-Log into your WordPress site using a smartphone... and no passwords! (almost)
+Log into your WordPress site using a smartphone... No typing and no passwords! (almost)
 
 == Description ==
 
-With this plugin you can make passwords* a thing of the past. All you need is your trusty smartphone with a QR Code reading app.
+With this plugin you can make passwords a thing of the past*. All you need is your trusty smartphone with a QR Code reading app.
 
-*So you need to log in on your phone browser, but how often do you clear those browser cookies? At least when you’re visiting your Aunt Sally and remember that you need to post something ASAP, you won’t have to remember your password…
+*So you need to log in on your phone browser, but how often do you clear those browser cookies?
+ 
+You’re on the go and the most brilliant idea for your blog hits you. You KNOW that if you don’t post it NOW it won’t be BRILLIANT anymore.
+The problem is that you’re out visiting your Aunt Sally and
+Your password is so secure even YOU can’t remember it off the top of your head
+Aunt Sally has so many junk apps that there are most probably keyloggers installed, and there goes your secure password.
+That’s where No More Passwords comes in handy. Log into your blog, keyboard — and remembering — free!
+
+Disclaimer: This plugin is fairly secure and has been audited by several security experts, but the user should know that they are using it at their own discretion.
 
 == Installation ==
 
@@ -30,7 +37,7 @@ With this plugin you can make passwords* a thing of the past. All you need is yo
 
 = Why do I need to log in on my phone? =
 
-You wouldn't want just ANYONE being able to access your site. Verification is still neccessary.
+You wouldn't want just ANYONE being able to access your site. Verification is still necessary.
 
 = So what's this plugin good for? =
 
@@ -45,6 +52,33 @@ I have no answer to foo bar dilemma.
 1. This is how your login page will look all pimped out with it's QR code.
 
 == Changelog ==
+
+= 1.1 =
+* All POST/GET variables have been properly sanitized against XSS attacks. Special thanks to Julio from [Boiteaweb.fr](http://Boiteaweb.fr/) for his security analysis and recommendations
+
+= 1.0 =
+* Out of Beta.
+* IP confirmation fixed.
+
+= 0.6 = 
+* XSS fix. Special thanks to Julio from [Boiteaweb.fr](http://Boiteaweb.fr/) for his security analysis and recommendations
+
+= 0.5 = 
+* Delay added to prevent dDos attack
+
+= 0.4 =
+* CSRF fix. Special thanks to Julio from [Boiteaweb.fr](http://Boiteaweb.fr/) for his security analysis and recommendations
+* AJAX, Cron jobs optimized
+
+= 0.3 =
+* $wpdb->prepare added to db queries. Special thanks to [scribu](http://wordpress.stackexchange.com/users/205/scribu)
+
+= 0.2 =
+* nonce added. 
+* get_userdatabylogin updated to get_user_by. Special thanks to [ericktedeschi](http://wordpress.org/support/profile/ericktedeschi)
+
+= 0.1.1 =
+* Fixed to work in subdirectory installs of wp. Special thanks to [hlcws](http://wordpress.org/support/profile/hlcws).
 
 = 0.1 =
 * First attempt
